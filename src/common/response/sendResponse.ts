@@ -6,10 +6,10 @@ interface Pagination {
   total: number;
 }
 
-export const sendResponse = (
+export const sendResponse = <T>(
   res: Response,
   status: number,
-  data: any,
+  data: T,
   message: string,
   pagination?: Pagination,
 ) => {
