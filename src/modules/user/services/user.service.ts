@@ -5,7 +5,7 @@ export const userService = {
     const offset = (page - 1) * limit;
 
     // query
-    const query = `SELECT name, email, avatar, role, status, created_at, last_login FROM users 
+    const query = `SELECT id, name, email, avatar, role, status, created_at, last_login FROM users 
       ORDER BY id DESC
       LIMIT ? offset ?`;
     const values = [limit, offset];
@@ -16,5 +16,10 @@ export const userService = {
       users,
       total,
     };
+  },
+  async getUserById(id: number) {
+    const query = `SELECT * FROM users WHERE id = ?`;
+    const [users]: any[] = await db.execute(query, [id]);
+    return users[0];
   },
 };

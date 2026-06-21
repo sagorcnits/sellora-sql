@@ -18,4 +18,28 @@ export const userController = {
       responsePagination(Number(page), Number(limit), Number(total)),
     );
   },
+
+  async getUserById(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const user = await userService.getUserById(Number(id));
+
+    if (!user) {
+      return sendResponse(res, 404, null, "User not found");
+    }
+
+    return sendResponse(res, 200, user, "User retrieved successfully");
+  },
+
+  async deleteUser(req: Request, res: Response) {
+    const { id } = req.params;
+
+    const user = await userService.getUserById(Number(id));
+
+    if (!user) {
+      return sendResponse(res, 404, null, "User not found");
+    }
+
+    return sendResponse(res, 200, user, "User deleted successfully");
+  },
 };
