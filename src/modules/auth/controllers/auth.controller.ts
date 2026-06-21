@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 import bcrypt from "bcryptjs";
-import authModel from "../models/auth.model";
+import { authService } from "../services/auth.service";
 import { RegisterRequest } from "../types/auth.type";
 
 export const authController = {
@@ -21,8 +21,16 @@ export const authController = {
       avatar,
     };
 
-    const result = await authModel.registerUser(user);
+    const result = await authService.registerUser(user);
 
     res.status(200).json(result);
+  },
+
+  async loginUser(req: Request, res: Response) {
+    const { email, password } = req.body;
+
+    const user = await authService.loginUser({ email, password });
+
+    res.status(200).json(user);
   },
 };
