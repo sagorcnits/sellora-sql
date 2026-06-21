@@ -33,13 +33,13 @@ export const userController = {
 
   async deleteUser(req: Request, res: Response) {
     const { id } = req.params;
-
     const user = await userService.getUserById(Number(id));
-
     if (!user) {
       return sendResponse(res, 404, null, "User not found");
     }
 
-    return sendResponse(res, 200, user, "User deleted successfully");
+    await userService.deleteUser(Number(id));
+
+    return sendResponse(res, 200, null, "User deleted successfully");
   },
 };

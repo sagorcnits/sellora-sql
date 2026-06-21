@@ -11,14 +11,20 @@ export const userService = {
     const values = [limit, offset];
 
     const [users]: any = await db.query(query, values);
-    const total = await db.query(`SELECT COUNT(*) as total FROM users`);
+    const [total]: any = await db.query(`SELECT COUNT(*) as total FROM users`);
+
     return {
       users,
-      total,
+      total: total[0].total,
     };
   },
   async getUserById(id: number) {
     const query = `SELECT * FROM users WHERE id = ?`;
+    const [users]: any[] = await db.execute(query, [id]);
+    return users[0];
+  },
+  async deleteUser(id: number) {
+    const query = `DELETE FROM users WHERE id = ?`;
     const [users]: any[] = await db.execute(query, [id]);
     return users[0];
   },
