@@ -1,7 +1,7 @@
 import { Request, Response } from "express";
 
 import bcrypt from "bcryptjs";
-import { sendResponse } from "../../../common/sendResponse";
+import { sendResponse } from "../../../common/response/sendResponse";
 import { authService } from "../services/auth.service";
 import { RegisterRequest } from "../types/auth.type";
 
