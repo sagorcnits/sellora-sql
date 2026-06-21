@@ -1,4 +1,5 @@
 import bcrypt from "bcryptjs";
+import jwt from "jsonwebtoken";
 import { getUserByEmail } from "../../../utils/getUserByEmail";
 import authModel from "../models/auth.model";
 export const authService = {
@@ -21,6 +22,15 @@ export const authService = {
       return null;
     }
 
-    return existingUser;
+    const jwtPayload = {
+      id: existingUser.id,
+      email: existingUser.email,
+    };
+
+    const accessToken = jwt.sign(jwtPayload, "secret");
+
+    delete existingUser.password;
+
+    return { accessToken, user: existingUser };
   },
 };

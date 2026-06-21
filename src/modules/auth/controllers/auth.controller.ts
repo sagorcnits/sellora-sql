@@ -1,6 +1,7 @@
 import { Request, Response } from "express";
 
 import bcrypt from "bcryptjs";
+import { sendResponse } from "../../../common/sendResponse";
 import { authService } from "../services/auth.service";
 import { RegisterRequest } from "../types/auth.type";
 
@@ -23,7 +24,7 @@ export const authController = {
 
     const result = await authService.registerUser(user);
 
-    res.status(200).json(result);
+    return sendResponse(res, 200, result, "Register successful");
   },
 
   async loginUser(req: Request, res: Response) {
@@ -31,6 +32,10 @@ export const authController = {
 
     const user = await authService.loginUser({ email, password });
 
-    res.status(200).json(user);
+    if (!user) {
+      return sendResponse(res, 401, null, "Invalid credentials");
+    }
+
+    return sendResponse(res, 200, user, "Login successful");
   },
 };
