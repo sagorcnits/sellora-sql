@@ -1,7 +1,8 @@
 import db from "../../../config/database";
+import { TProduct } from "../types/products.type";
 // product Service
 export const productService = {
-  async createProduct(product: any) {
+  async createProduct(product: TProduct) {
     const values = [
       product.name,
       product.description,
@@ -10,10 +11,17 @@ export const productService = {
       product.category_id,
     ];
 
+    const product_image_value = product.images.map((image) => image);
+
+    // query
+    const image_query = `INSERT INTO product_images (product_id, image) VALUES (?, ?)`;
+
     // query
     const query = `INSERT INTO products (name, description, price, stock, category_id) VALUES (?, ?, ?, ?, ?)`;
 
-    const [rows] = await db.execute(query, values);
+    const [rows]: any = await db.execute(query, values);
+
+    await db.execute(image_query, [rows.insertId, product_image_value]);
 
     return rows;
   },
@@ -45,5 +53,38 @@ export const productService = {
     const query = `SELECT * FROM products WHERE id = ?`;
     const [products]: any[] = await db.execute(query, [id]);
     return products[0];
+  },
+  async updateProduct(id: number, product: TProduct) {
+    const values = [
+      product.name,
+      product.description,
+      product.price,
+      product.stock,
+      product.category_id,
+      id,
+    ];
+
+    const product_image_value = product.images.map((image) => image);
+
+    // query
+    // const image_query = `INSERT INTO product_images (product_id, image) VALUES (?, ?)`;
+
+    // query
+    const query = `UPDATE products SET name = ?, description = ?, price = ?, stock = ?, category_id = ? WHERE id = ?`;
+
+    await db.execute(query, values);
+
+    // await db.execute(image_query, [id, product_image_value]);
+
+    return true;
+  },
+
+  async deleteProduct(id: number) {
+    // query
+    const query = `DELETE FROM products WHERE id = ?`;
+
+    await db.execute(query, [id]);
+
+    return true;
   },
 };
