@@ -1,3 +1,3 @@
-touch src/modules/products/controllers/products.controller.ts src/modules/products/types/products.type.ts src/modules/products/routes/products.route.ts src/modules/products/models/products.model.ts src/modules/products/services/products.service.ts
+touch src/modules/order/controllers/order.controller.ts src/modules/order/types/order.type.ts src/modules/order/routes/order.route.ts src/modules/order/models/order.model.ts src/modules/order/services/order.service.ts
 
-mkdir src/modules/products/controllers src/modules/products/types src/modules/products/routes src/modules/products/models src/modules/products/services
+mkdir src/modules/order/controllers src/modules/order/types src/modules/order/routes src/modules/order/models src/modules/order/services
